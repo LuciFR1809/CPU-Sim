@@ -1,0 +1,44 @@
+;Group - 3 CA Project
+;Authors - 
+;Abhishek Bapna - 2018A7PS0027H
+;Siddhant Kulkarni - 2018A7PS0185H
+;Vikram S Haritas - 2018A7PS0302H
+;Sravani Garapati - 2018A7PS0097H
+;Ashna Swaika - 2018A7PS0027H
+Start: ipa
+       jmpz Done 
+       jmpn Skip ;check if no. is negative
+       m2m addr  
+       lda addr  ;load address
+       add inc   ;increment address 
+       sta addr  ;store address
+       lda count ;load count
+       add inc   ;increment count
+       sta count ;store count
+
+Skip:  jmp Start ;when negative value is encountered
+
+Done:  lda addr ;load address
+       add dec  ;go to prev instruction
+       sta addr ;store address
+
+
+Prnt:  lda count ;load count
+       jmpz End ;end if count=0
+       m2a addr ; acc has the value stored at value of addr
+       opa
+       lda addr ; acc has value at addr
+       add dec   
+       sta addr  
+       lda count ;load count
+       add dec   ;decrement count
+       sta count ;store count
+       jmp Prnt ;loop back
+End:   stop
+
+inc:   .data 1 [0x1] ;increment by 1
+dec:   .data 1 [-0x1]
+count: .data 1 [0x0] ; 2-byte location where count is stored
+addr:  .data 1 [0x30];location to store address
+ 
+ 

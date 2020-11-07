@@ -1,0 +1,61 @@
+;Group-3 CA Project
+;Authors - 
+;Abhishek Bapna - 2018A7PS0027H
+;Siddhant Kulkarni - 2018A7PS0185H
+;Vikram S Haritas - 2018A7PS0302H
+;Sravani Garapati - 2018A7PS0097H
+;Ashna Swaika - 2018A7PS0027H
+
+; This program reads in integers and adds them together
+; until a negative number is read in.  Then it outputs
+; the sum (not including the last number).
+
+;starts from here and keeps looping back here until 0
+Start: 
+       ipa
+       jmpz Done ;jump to Done if no. is 0
+       jmpn Skip ;check if no. is negative
+       m2m addr  ;stores the value of the address to another location
+       lda addr  ;load address
+       add inc   ;increment address 
+       sta addr  ;store address
+       lda count ;load count
+       add inc   ;increment count
+       sta count ;store count
+
+;comes here if negative number is encountered
+Skip:  
+       jmp Start ;when negative value is encountered
+
+;comes here when zero is encountered as input
+Done:  lda addr ;load address
+       add dec  ;go to prev instruction
+       sta addr ;store address
+
+;print the sum of all the values from start address
+Prnt:  
+       lda count ;load count
+       jmpz End ;end if count=0
+       m2a sadd ; acc has the value stored at value of addr
+       add sum  ; add the value in accumulator to sum
+       sta sum  ; store sum back into main memory
+       opa  ;output the value of accumulator
+       lda sadd ; acc has value at addr
+       add inc  ; increment the address location
+       sta sadd  ;store the address location 
+       lda count ;load count
+       add dec   ;decrement count
+       sta count ;store count
+       jmp Prnt ;loop back
+
+;end program
+End:   
+        stop 
+
+inc:   .data 1 [0x1] ;increment by 1
+dec:   .data 1 [-0x1];decrement by 1
+count: .data 1 [0x0] ; 2-byte location where count is stored
+addr:  .data 1 [0x30];location to store address
+sadd:  .data 1 [0x30] ;start address for inorder printing
+sum:   .data 1 [0x0] ;2-byte location where sum is stored
+ 
